@@ -27,7 +27,7 @@
 
 RUNDIR = ./
 
-EXEC = pinocchio
+EXEC = pinocchio.x
 
 DEBUG = NO
 # TODO check OMP integration
@@ -69,67 +69,29 @@ OMP_FLAG =
 OMP_FFTW =
 endif
 
-SYSTYPE="Karabo"
+SYSTYPE ="Karabo"
+LOCAL = YES
+
+ifeq ($(LOCAL), YES)
+DEPENDENCY_ROOT=$(CONDA_PREFIX)
+else
+DEPENDENCY_ROOT=$(PREFIX)
+endif
 
 ifeq ($(SYSTYPE),"Karabo")
 CC          =  mpicc
 CDEBUG      = -ggdb3 -Wall $(OMP_FLAG)
 COPTIMIZED  = -O3 -Wno-unused-result $(OMP_FLAG)
-FFTW_LIBR   = -L$(PREFIX)/lib -lfftw3_mpi -lfftw3 $(OMP_FFTW)
-FFTW_INCL   = -I$(PREFIX)/include
-PFFT_LIBR   = -lpfft
-PFFT_INCL   = -I$(PREFIX)/lib
-MPI_LIBR    = -L$(SMPI_ROOT)/lib -lmpi_ibm
+FFTW_LIBR   = -L$(DEPENDENCY_ROOT)/lib -lfftw3_mpi -lfftw3 $(OMP_FFTW)
+FFTW_INCL   = -I$(DEPENDENCY_ROOT)/include
+PFFT_LIBR   = -L$(DEPENDENCY_ROOT)/lib -lpfft
+PFFT_INCL   = -I$(DEPENDENCY_ROOT)/include
+#MPI_LIBR    = -L$(SMPI_ROOT)/lib -lopenmpi
 MPI_INCL    = -I$(SMPI_ROOT)/include
-GSL_LIBR    = -L$(GSL_LIB) -lgsl -lgslcblas -lm
+GSL_LIBR    = -L$(GSL_LIB)/lib -lgsl -lgslcblas -lm
 GSL_INCL    = -I$(GSL_INC)
 endif
 
-ifeq ($(SYSTYPE),"Marconi100")
-CC          =  mpicc
-CDEBUG      = -ggdb3 -Wall $(OMP_FLAG)
-COPTIMIZED  = -O2 -Wno-unused-result $(OMP_FLAG)
-FFTW_LIBR   = -L$(HOME)/lib -lfftw3_mpi -lfftw3 $(OMP_FFTW)
-FFTW_INCL   = -I$(HOME)/include
-PFFT_LIBR   = -lpfft
-PFFT_INCL   = 
-MPI_LIBR    = -L$(SMPI_ROOT)/lib -lmpi_ibm
-MPI_INCL    = -I$(SMPI_ROOT)/include
-GSL_LIBR    = -L$(GSL_LIB) -lgsl -lgslcblas -lm
-GSL_INCL    = -I$(GSL_INC)
-endif
-
-ifeq ($(SYSTYPE),"amonra")
-CC          =  mpicc
-CDEBUG      = -ggdb3 -Wall $(OMP_FLAG)
-COPTIMIZED  = -O3 -Wno-unused-result $(OMP_FLAG)
-FFTW_LIBR   = -L$(FFTW_LIB) -lfftw3_mpi -lfftw3 $(OMP_FFTW)
-FFTW_INCL   = -I$(FFTW_INC)
-PFFT_LIBR   = -L$(HOME)/lib -lpfft
-PFFT_INCL   = -I$(HOME)/include
-MPI_LIBR    =
-MPI_INCL    =
-GSL_LIBR    = -L$(GSL_LIB) -lgsl -lgslcblas -lm
-GSL_INCL    = -I$(GSL_INC)
-endif
-
-
-ifeq ($(SYSTYPE),"my_machine")
-CC          =  mpicc
-CDEBUG      = -ggdb3 -Wall $(OMP_FLAG)
-COPTIMIZED  = -O3 -Wno-unused-result $(OMP_FLAG)
-FFTW_LIBR   = -L$(HOME)/lib -lfftw3_mpi -lfftw3 $(OMP_FFTW)
-FFTW_INCL   = -I/usr/local/include -I$(HOME)/include
-PFFT_LIBR   = -lpfft
-PFFT_INCL   = 
-MPI_LIBR    =
-MPI_INCL    =
-GSL_LIBR    = -lgsl -lgslcblas
-GSL_INCL    = -I/usr/include
-endif
-
-
-# included libraries, shared libraries 
 INC =  $(PFFT_INCL) $(FFTW_INCL) $(MPI_INCL) $(GSL_INCL)
 LIB =  -lm $(PFFT_LIBR) $(FFTW_LIBR) $(MPI_LIBR) $(GSL_LIBR)
 
@@ -161,4 +123,6 @@ run_planner: $(OBJECTS) run_planner.o Makefile
 clean:
 	\rm -f *.o *~ $(EXEC) run_planner
 
-
+install: 
+	install -d $(DEPENDENCY_ROOT)/bin/
+	install -m 777 $(RUNDIR)$(EXEC) $(DEPENDENCY_ROOT)/bin/
