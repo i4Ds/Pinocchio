@@ -27,9 +27,10 @@
 
 RUNDIR = ./
 
-EXEC = pinocchio.x
+EXEC = pinocchio
 
 DEBUG = NO
+# TODO check OMP integration
 OMP   = NO
 
 #OPTIONS += -DCLASSIC_FRAGMENTATION
@@ -68,7 +69,21 @@ OMP_FLAG =
 OMP_FFTW =
 endif
 
-SYSTYPE="my_machine"
+SYSTYPE="Karabo"
+
+ifeq ($(SYSTYPE),"Karabo")
+CC          =  mpicc
+CDEBUG      = -ggdb3 -Wall $(OMP_FLAG)
+COPTIMIZED  = -O3 -Wno-unused-result $(OMP_FLAG)
+FFTW_LIBR   = -L$(PREFIX)/lib -lfftw3_mpi -lfftw3 $(OMP_FFTW)
+FFTW_INCL   = -I$(PREFIX)/include
+PFFT_LIBR   = -lpfft
+PFFT_INCL   = -I$(PREFIX)/lib
+MPI_LIBR    = -L$(SMPI_ROOT)/lib -lmpi_ibm
+MPI_INCL    = -I$(SMPI_ROOT)/include
+GSL_LIBR    = -L$(GSL_LIB) -lgsl -lgslcblas -lm
+GSL_INCL    = -I$(GSL_INC)
+endif
 
 ifeq ($(SYSTYPE),"Marconi100")
 CC          =  mpicc
