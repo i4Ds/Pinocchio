@@ -70,7 +70,7 @@ OMP_FFTW =
 endif
 
 SYSTYPE ="Karabo"
-LOCAL = YES
+LOCAL = NO
 
 ifeq ($(LOCAL), YES)
 DEPENDENCY_ROOT=$(CONDA_PREFIX)
