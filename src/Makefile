@@ -27,7 +27,7 @@
 
 RUNDIR = ./
 
-EXEC = pinocchio.x
+EXEC = pinocchio
 
 DEBUG = NO
 # TODO check OMP integration
