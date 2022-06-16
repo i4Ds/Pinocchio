@@ -36,7 +36,7 @@ int main(int argc, char **argv, char **envp)
   if (argc<2)
     {
       if (!ThisTask)
-	printf("Usage: pinocchio.x parameterfile\n");
+	printf("Usage: pinocchio parameterfile\n");
       MPI_Finalize();
 #ifdef USE_GPERFTOOLS
       ProfilerStop();
