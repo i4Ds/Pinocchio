@@ -28,6 +28,7 @@
 RUNDIR = ./
 
 EXEC = pinocchio
+RUNPLAN = $(EXEC)_rp
 
 DEBUG = NO
 # TODO check OMP integration
@@ -114,15 +115,23 @@ OBJECTS = fmax.o variables.o initialization.o collapse_times.o fmax-pfft.o GenIC
 %.o: %.c Makefile pinocchio.h def_splines.h
 	$(CC) $(INC) $(COPTS) $(OPTIONS) -c $<
 
+all: pinocchio run_planner
+
 pinocchio: $(OBJECTS) pinocchio.o Makefile
 	$(CC) $(INC) $(COPTS) -o $(RUNDIR)$(EXEC) pinocchio.o $(OBJECTS) $(LIB)
 
 run_planner: $(OBJECTS) run_planner.o Makefile
-	$(CC) $(INC) $(COPTS) -o run_planner run_planner.o $(OBJECTS) $(LIB)
+	$(CC) $(INC) $(COPTS) -o $(RUNDIR)$(RUNPLAN) run_planner.o $(OBJECTS) $(LIB)
 
-clean:
-	\rm -f *.o *~ $(EXEC) run_planner
+cleanObjects:
+	\rm -f *.o *~
+
+cleanBinaries:
+	\rm -f $(EXEC) $(RUNPLAN)
+
+clean: cleanObjects cleanBinaries
 
 install: 
 	install -d $(DEPENDENCY_ROOT)/bin/
 	install -m 777 $(RUNDIR)$(EXEC) $(DEPENDENCY_ROOT)/bin/
+	install -m 777 $(RUNDIR)$(RUNPLAN) $(DEPENDENCY_ROOT)/bin/
