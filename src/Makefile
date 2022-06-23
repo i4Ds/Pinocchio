@@ -26,9 +26,16 @@
 
 
 RUNDIR = ./
+EXAMPLEDIR = ../example/
 
 EXEC = pinocchio
 RUNPLAN = $(EXEC)_rp
+
+PARAMS_FILE_PATH = $(EXAMPLEDIR)parameter_file
+OUT_FILE_PATH = $(EXAMPLEDIR)outputs
+
+PARAMS_OUT = $(EXEC)_params.conf
+OUTS_OUT = $(EXEC)_outs.conf
 
 DEBUG = NO
 # TODO check OMP integration
@@ -132,6 +139,13 @@ cleanBinaries:
 clean: cleanObjects cleanBinaries
 
 install: 
+	# install binaries
 	install -d $(DEPENDENCY_ROOT)/bin/
 	install -m 777 $(RUNDIR)$(EXEC) $(DEPENDENCY_ROOT)/bin/
 	install -m 777 $(RUNDIR)$(RUNPLAN) $(DEPENDENCY_ROOT)/bin/
+	
+	# install example files
+	install -d $(DEPENDENCY_ROOT)/etc/
+	install -m 666 $(PARAMS_FILE_PATH) $(DEPENDENCY_ROOT)/etc/$(PARAMS_OUT)
+	install -m 666 $(OUT_FILE_PATH) $(DEPENDENCY_ROOT)/etc/$(OUTS_OUT)
+	
