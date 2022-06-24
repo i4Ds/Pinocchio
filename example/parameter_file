@@ -1,4 +1,4 @@
-# This is an example parameter file for the Pinocchio 4.0 code
+# This is an example parameter file for the Pinocchio 5.0 code
 
 # runProperties
 RunFlag                example      % name of the run
