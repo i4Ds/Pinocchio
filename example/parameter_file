@@ -38,12 +38,12 @@ NumFiles               1            % number of files in which each catalog is w
 MinHaloMass            10           % smallest halo that is given in output
 AnalyticMassFunction   9            % form of analytic mass function given in the .mf.out files
 
-# outputFlags:
+# outputFlags
 % WriteSnapshot                     % writes a Gadget2 snapshot as an output
 % DoNotWriteCatalogs                % skips the writing of full catalogs (including PLC)
 % DoNotWriteHistories               % skips the writing of merger histories
 
-# debugFlags:
+# debugFlags
 % WriteFmax                         % writes the values of the Fmax field, particle by particle
 % WriteVmax                         % writes the values of the Vmax field, particle by particle
 % WriteRmax                         % writes the values of the Rmax field, particle by particle

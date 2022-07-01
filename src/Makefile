@@ -29,6 +29,7 @@ RUNDIR = ./
 EXAMPLEDIR = ../example/
 
 EXEC = pinocchio
+BIN_LOCAL_NAME = $(EXEC).x
 RUNPLAN = $(EXEC)_rp
 
 PARAMS_FILE_PATH = $(EXAMPLEDIR)parameter_file
@@ -125,7 +126,7 @@ OBJECTS = fmax.o variables.o initialization.o collapse_times.o fmax-pfft.o GenIC
 all: pinocchio run_planner
 
 pinocchio: $(OBJECTS) pinocchio.o Makefile
-	$(CC) $(INC) $(COPTS) -o $(RUNDIR)$(EXEC) pinocchio.o $(OBJECTS) $(LIB)
+	$(CC) $(INC) $(COPTS) -o $(RUNDIR)$(BIN_LOCAL_NAME) pinocchio.o $(OBJECTS) $(LIB)
 
 run_planner: $(OBJECTS) run_planner.o Makefile
 	$(CC) $(INC) $(COPTS) -o $(RUNDIR)$(RUNPLAN) run_planner.o $(OBJECTS) $(LIB)
@@ -134,14 +135,14 @@ cleanObjects:
 	\rm -f *.o *~
 
 cleanBinaries:
-	\rm -f $(EXEC) $(RUNPLAN)
+	\rm -f $(BIN_LOCAL_NAME) $(RUNPLAN)
 
 clean: cleanObjects cleanBinaries
 
 install: 
 	# install binaries
 	install -d $(DEPENDENCY_ROOT)/bin/
-	install -m 777 $(RUNDIR)$(EXEC) $(DEPENDENCY_ROOT)/bin/
+	install -m 777 $(RUNDIR)$(BIN_LOCAL_NAME) $(DEPENDENCY_ROOT)/bin/$(EXEC)
 	install -m 777 $(RUNDIR)$(RUNPLAN) $(DEPENDENCY_ROOT)/bin/
 	
 	# install example files

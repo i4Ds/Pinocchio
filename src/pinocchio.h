@@ -32,7 +32,7 @@
 #define NYQUIST 1.
 #define PI      3.14159265358979323846 
 #define LBLENGTH 400
-#define SBLENGTH 100
+#define SBLENGTH 150 // max chars on a line readable / writable from / to i/o
 #define GBYTE 1073741824.0
 #define MBYTE 1048576.0
 #define alloc_verbose 0
