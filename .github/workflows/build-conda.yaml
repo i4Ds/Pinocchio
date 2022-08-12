@@ -23,7 +23,7 @@ jobs:
         run: |
           cd conda/
           conda build -c i4ds -c conda-forge .
-        - name: Set vars if Linux
+      - name: Set vars if Linux
         if: matrix.os == 'ubuntu-latest'
         run: |
           echo "internal_folder=share" >> $GITHUB_ENV
@@ -40,7 +40,7 @@ jobs:
           anaconda -t ${{ secrets.ANACONDA_SECRET }} upload /usr/${{ env.internal_folder }}/miniconda/conda-bld/${{ env.internal_name }}-64/pinocchio*.tar.bz2 --force
   install_and_test:
     needs: build_and_upload
-     strategy:
+    strategy:
       matrix:
         os: [ macos-latest, ubuntu-latest ]
     runs-on: ${{ matrix.os }}
