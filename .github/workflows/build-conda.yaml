@@ -4,10 +4,7 @@ on: [ push, repository_dispatch ]
 
 jobs:
   build_and_upload:
-    strategy:
-      matrix:
-        os: [ macos-latest, ubuntu-latest ]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -18,32 +15,20 @@ jobs:
       - name: Install Conda Build
         run: |
           conda install conda-build
-          conda install anaconda
       - name: Build conda
         run: |
           cd conda/
           conda build -c i4ds -c conda-forge .
-      - name: Set vars if Linux
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          echo "internal_folder=share" >> $GITHUB_ENV
-          echo "internal_name=linux" >> $GITHUB_ENV
-      - name: Set vars if MacOS
-        if: matrix.os == 'macos-latest'
-        run: |
-          echo "internal_folder=local" >> $GITHUB_ENV
-          echo "internal_name=osx" >> $GITHUB_ENV
       - name: Publish to Conda
         shell: bash -l {0}
         run: |
           conda activate base
-          anaconda -t ${{ secrets.ANACONDA_SECRET }} upload /usr/${{ env.internal_folder }}/miniconda/conda-bld/${{ env.internal_name }}-64/pinocchio*.tar.bz2 --force
+          conda install anaconda-client
+          anaconda -t ${{ secrets.ANACONDA_SECRET }} upload /usr/share/miniconda/conda-bld/linux-64/pinocchio*.tar.bz2 --force
+          
   install_and_test:
     needs: build_and_upload
-    strategy:
-      matrix:
-        os: [ macos-latest, ubuntu-latest ]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -55,6 +40,7 @@ jobs:
         shell: bash -l {0}
         run: |
           conda activate base
-          conda config --append channels i4ds
-          conda config --append channels conda-forge
-          conda install pinocchio
+          conda install -c i4ds -c conda-forge pinocchio
+          pinocchio
+          pinocchio_rp
+          
