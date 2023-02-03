@@ -40,7 +40,10 @@ jobs:
         shell: bash -l {0}
         run: |
           conda activate base
-          conda install -c i4ds -c conda-forge pinocchio
+          conda config --append channels i4ds
+          conda config --append channels conda-forge
+          conda install pinocchio
+          echo "run pinocchio:"
           pinocchio
           pinocchio_rp
           
