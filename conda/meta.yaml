@@ -20,7 +20,7 @@ requirements:
     - fftw3
     - pfft
     - gsl
-    - openmpi
+    - openmpi=4.1.4=ha1ae619_102
     
   host:
  
@@ -28,7 +28,7 @@ requirements:
     - gsl
     - fftw3
     - pfft
-    - openmpi
+    - openmpi=4.1.4=ha1ae619_102
 
 #test:
 #  imports:
