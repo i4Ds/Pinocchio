@@ -19,15 +19,15 @@ requirements:
     - {{ compiler('gfortran') }}
     - fftw3
     - pfft
-    - gsl
+    - gsl=2.7
     - openmpi=4.1.4=ha1ae619_102
     
   host:
  
   run:
-    - gsl
     - fftw3
     - pfft
+    - gsl=2.7
     - openmpi=4.1.4=ha1ae619_102
 
 #test:
