@@ -198,17 +198,17 @@ int set_parameters()
     params.MinHaloMass=1;
 
   if (params.BoxInH100)
-    {
-      params.BoxSize_h100  = params.BoxSize;
-      params.BoxSize_htrue = params.BoxSize/params.Hubble100;
-    }
+  {
+    params.BoxSize_h100  = params.BoxSize;
+    params.BoxSize_htrue = params.BoxSize/params.Hubble100;
+  }
   else
-    {
-      params.BoxSize_h100  = params.BoxSize*params.Hubble100;
-      params.BoxSize_htrue = params.BoxSize;
-    }
+  {
+    params.BoxSize_h100  = params.BoxSize*params.Hubble100;
+    params.BoxSize_htrue = params.BoxSize;
+  }
+  
   params.InterPartDist = params.BoxSize_htrue/params.GridSize[0];
-
   params.ParticleMass = 2.775499745e11 * params.Hubble100 * params.Hubble100 * params.Omega0 
     * pow(params.InterPartDist,3.);
   strcpy(params.DumpDir,"DumpProducts/");
@@ -221,120 +221,128 @@ int set_parameters()
 
   /* The number of files must be a divisor of the number of tasks */
   if (NTasks%params.NumFiles != 0)
-    {
-      while (NTasks%params.NumFiles != 0)
-	params.NumFiles--;
+  {
+    while (NTasks%params.NumFiles != 0)
+	    params.NumFiles--;
 
-      if (!ThisTask)
-	printf("Warning: NumFiles must be a divisor of NTasks, it has been fixed to %d\n",
+    if (!ThisTask)
+	    printf("Warning: NumFiles must be a divisor of NTasks, it has been fixed to %d\n",
 	       params.NumFiles);
-    }
-
+  }
 
   /* inverse collapse times for the required outputs */
   for (i=0; i<outputs.n; i++)
     outputs.F[i]=1.+outputs.z[i];
+  
   outputs.Flast=outputs.F[outputs.n-1];
 
   if (!ThisTask)
-    {
-      dprintf(VMSG, 0, "Flag for this run: %s\n\n",params.RunFlag);
-      dprintf(VMSG, 0, "PARAMETER VALUES from file %s:\n",params.ParameterFile);
-      dprintf(VMSG, 0, "Omega0                      %f\n",params.Omega0);
-      dprintf(VMSG, 0, "OmegaLambda                 %f\n",params.OmegaLambda);    
-      dprintf(VMSG, 0, "OmegaBaryon                 %f\n",params.OmegaBaryon);
-      if (strcmp(params.TabulatedEoSfile,"no"))
-	{
-	  dprintf(VMSG, 0, "Dark Energy EoS will be read from file %s\n",params.TabulatedEoSfile);
-	}
-      else
-	{
-	  dprintf(VMSG, 0, "DE EoS parameters           %f %f\n",params.DEw0,params.DEwa);
-	}
+  {
+    dprintf(VMSG, 0, "Flag for this run: %s\n\n",params.RunFlag);
+    dprintf(VMSG, 0, "PARAMETER VALUES from file %s:\n",params.ParameterFile);
+    dprintf(VMSG, 0, "Omega0                      %f\n",params.Omega0);
+    dprintf(VMSG, 0, "OmegaLambda                 %f\n",params.OmegaLambda);    
+    dprintf(VMSG, 0, "OmegaBaryon                 %f\n",params.OmegaBaryon);
+    
+    if (strcmp(params.TabulatedEoSfile,"no"))
+	  {
+	    dprintf(VMSG, 0, "Dark Energy EoS will be read from file %s\n",params.TabulatedEoSfile);
+	  }
+    else
+	  {
+	    dprintf(VMSG, 0, "DE EoS parameters           %f %f\n",params.DEw0,params.DEwa);
+	  }
+    
+    dprintf(VMSG, 0, "Hubble100                   %f\n",params.Hubble100);
+    dprintf(VMSG, 0, "Sigma8                      %f\n",params.Sigma8);
+    dprintf(VMSG, 0, "PrimordialIndex             %f\n",params.PrimordialIndex);
+    dprintf(VMSG, 0, "RandomSeed                  %d\n",params.RandomSeed);
+    dprintf(VMSG, 0, "OutputList                  %s\n",params.OutputList);
+    dprintf(VMSG, 0, "Number of outputs           %d\n",outputs.n);
+    dprintf(VMSG, 0, "Output redshifts           ");
+    
+    for (i=0; i<outputs.n; i++)
+	    dprintf(VMSG, 0, " %f ",outputs.z[i]);
+    
+    dprintf(VMSG, 0, "\n");
+    dprintf(VMSG, 0, "GridSize                    %d %d %d\n",params.GridSize[0],params.GridSize[1],params.GridSize[2]);
+    dprintf(VMSG, 0, "BoxSize (true Mpc)          %f\n",params.BoxSize_htrue);
+    dprintf(VMSG, 0, "BoxSize (Mpc/h)             %f\n",params.BoxSize_h100);
+    dprintf(VMSG, 0, "Particle Mass (true Msun)   %g\n",params.ParticleMass);
+    dprintf(VMSG, 0, "Particle Mass (Msun/h)      %g\n",params.ParticleMass*params.Hubble100);
+    dprintf(VMSG, 0, "Inter-part dist (true Mpc)  %f\n",params.InterPartDist);
+    dprintf(VMSG, 0, "Inter-part dist (Mpc/h)     %f\n",params.InterPartDist*params.Hubble100);
+    dprintf(VMSG, 0, "MinHaloMass (particles)     %d\n",params.MinHaloMass);
+    dprintf(VMSG, 0, "MinHaloMass (Msun/h)        %g\n",params.MinHaloMass*params.ParticleMass*params.Hubble100);
+    dprintf(VMSG, 0, "BoundaryLayerFactor         %f\n",params.BoundaryLayerFactor);
+    dprintf(VMSG, 0, "MaxMem per task (Mb)        %d\n",params.MaxMem);
+    dprintf(VMSG, 0, "MaxMem per particle (b)     %f\n",params.MaxMemPerParticle);
+    dprintf(VMSG, 0, "CatalogInAscii              %d\n",params.CatalogInAscii);
+    dprintf(VMSG, 0, "NumFiles                    %d\n",params.NumFiles);
+    dprintf(VMSG, 0, "DoNotWriteCatalogs          %d\n",params.DoNotWriteCatalogs);
+    dprintf(VMSG, 0, "DoNotWriteHistories         %d\n",params.DoNotWriteHistories);
+    dprintf(VMSG, 0, "WriteTimelessSnapshot       %d\n",params.WriteTimelessSnapshot);
+    dprintf(VMSG, 0, "OutputInH100                %d\n",params.OutputInH100);
+    dprintf(VMSG, 0, "WriteDensity                %d\n",params.WriteDensity);
+    dprintf(VMSG, 0, "WriteProducts               %d\n",params.WriteProducts);
+    dprintf(VMSG, 0, "DumpProducts                %d\n",params.DumpProducts);
+    dprintf(VMSG, 0, "ReadProductsFromDumps       %d\n",params.ReadProductsFromDumps);
+    
+#ifdef PLC
+    dprintf(VMSG, 0, "DeltaF_PLC                  %f\n", params.deltaF_PLC_in);
+#endif
+    
+    switch(params.AnalyticMassFunction)
+	  {
+	    case 0:
+	      dprintf(VMSG, 0, "Using Press & Schechter (1974) for the analytic mass function\n");
+	      break;
+      case 1:
+	      dprintf(VMSG, 0, "Using Sheth & Tormen (2001) for the analytic mass function\n");
+	      break;
+	    case 2:
+	      dprintf(VMSG, 0, "Using Jenkins et al. (2001) for the analytic mass function\n");
+	      break;
+	    case 3:
+	      dprintf(VMSG, 0, "Using Warren et al. (2006) for the analytic mass function\n");
+	      break;
+	    case 4:
+	      dprintf(VMSG, 0, "Using Reed et al. (2007) for the analytic mass function\n");
+	      break;
+	    case 5:
+	      dprintf(VMSG, 0, "Using Crocce et al. (2010) for the analytic mass function\n");
+	      break;
+	    case 6:
+	      dprintf(VMSG, 0, "Using Tinker et al. (2008) for the analytic mass function\n");
+	      break;
+	    case 7:
+	      dprintf(VMSG, 0, "Using Courtin et al. (2010) for the analytic mass function\n");
+	      break;
+	    case 8:
+	      dprintf(VMSG, 0, "Using Angulo et al. (2012) for the analytic mass function\n");
+	      break;
+	    case 9:
+	      dprintf(VMSG, 0, "Using Watson et al. (2013) for the analytic mass function\n");
+	      break;
+	    case 10:
+	      dprintf(VMSG, 0, "Using Crocce et al. (2010) with forced universality for the analytic mass function\n");
+	      break;
+	    default:
+	      dprintf(VMSG, 0, "Unknown value for AnalyticMassFunction, Using Watson et al. (2013)\n");
+	      params.AnalyticMassFunction=9;
+	      break;
+	  }
+    
+    dprintf(VMSG, 0, "\n");
+    dprintf(VMSG, 0, "\n");
+    dprintf(VMSG, 0, "GENIC parameters:\n");
+    dprintf(VMSG, 0, "InputSpectrum_UnitLength_in_cm %f\n",params.InputSpectrum_UnitLength_in_cm);
+    dprintf(VMSG, 0, "FileWithInputSpectrum          %s\n",params.FileWithInputSpectrum);
+    dprintf(VMSG, 0, "WDM_PartMass_in_kev            %f\n",params.WDM_PartMass_in_kev);
+    dprintf(VMSG, 0, "\n");
+  }
 
-      dprintf(VMSG, 0, "Hubble100                   %f\n",params.Hubble100);
-      dprintf(VMSG, 0, "Sigma8                      %f\n",params.Sigma8);
-      dprintf(VMSG, 0, "PrimordialIndex             %f\n",params.PrimordialIndex);
-      dprintf(VMSG, 0, "RandomSeed                  %d\n",params.RandomSeed);
-      dprintf(VMSG, 0, "OutputList                  %s\n",params.OutputList);
-      dprintf(VMSG, 0, "Number of outputs           %d\n",outputs.n);
-      dprintf(VMSG, 0, "Output redshifts           ");
-      for (i=0; i<outputs.n; i++)
-	dprintf(VMSG, 0, " %f ",outputs.z[i]);
-      dprintf(VMSG, 0, "\n");
-      dprintf(VMSG, 0, "GridSize                    %d %d %d\n",params.GridSize[0],params.GridSize[1],params.GridSize[2]);
-      dprintf(VMSG, 0, "BoxSize (true Mpc)          %f\n",params.BoxSize_htrue);
-      dprintf(VMSG, 0, "BoxSize (Mpc/h)             %f\n",params.BoxSize_h100);
-      dprintf(VMSG, 0, "Particle Mass (true Msun)   %g\n",params.ParticleMass);
-      dprintf(VMSG, 0, "Particle Mass (Msun/h)      %g\n",params.ParticleMass*params.Hubble100);
-      dprintf(VMSG, 0, "Inter-part dist (true Mpc)  %f\n",params.InterPartDist);
-      dprintf(VMSG, 0, "Inter-part dist (Mpc/h)     %f\n",params.InterPartDist*params.Hubble100);
-      dprintf(VMSG, 0, "MinHaloMass (particles)     %d\n",params.MinHaloMass);
-      dprintf(VMSG, 0, "MinHaloMass (Msun/h)        %g\n",params.MinHaloMass*params.ParticleMass*params.Hubble100);
-      dprintf(VMSG, 0, "BoundaryLayerFactor         %f\n",params.BoundaryLayerFactor);
-      dprintf(VMSG, 0, "MaxMem per task (Mb)        %d\n",params.MaxMem);
-      dprintf(VMSG, 0, "MaxMem per particle (b)     %f\n",params.MaxMemPerParticle);
-      dprintf(VMSG, 0, "CatalogInAscii              %d\n",params.CatalogInAscii);
-      dprintf(VMSG, 0, "NumFiles                    %d\n",params.NumFiles);
-      dprintf(VMSG, 0, "DoNotWriteCatalogs          %d\n",params.DoNotWriteCatalogs);
-      dprintf(VMSG, 0, "DoNotWriteHistories         %d\n",params.DoNotWriteHistories);
-      dprintf(VMSG, 0, "WriteTimelessSnapshot       %d\n",params.WriteTimelessSnapshot);
-      dprintf(VMSG, 0, "OutputInH100                %d\n",params.OutputInH100);
-      dprintf(VMSG, 0, "WriteDensity                %d\n",params.WriteDensity);
-      dprintf(VMSG, 0, "WriteProducts               %d\n",params.WriteProducts);
-      dprintf(VMSG, 0, "DumpProducts                %d\n",params.DumpProducts);
-      dprintf(VMSG, 0, "ReadProductsFromDumps       %d\n",params.ReadProductsFromDumps);
-      switch(params.AnalyticMassFunction)
-	{
-	case 0:
-	  dprintf(VMSG, 0, "Using Press & Schechter (1974) for the analytic mass function\n");
-	  break;
-	case 1:
-	  dprintf(VMSG, 0, "Using Sheth & Tormen (2001) for the analytic mass function\n");
-	  break;
-	case 2:
-	  dprintf(VMSG, 0, "Using Jenkins et al. (2001) for the analytic mass function\n");
-	  break;
-	case 3:
-	  dprintf(VMSG, 0, "Using Warren et al. (2006) for the analytic mass function\n");
-	  break;
-	case 4:
-	  dprintf(VMSG, 0, "Using Reed et al. (2007) for the analytic mass function\n");
-	  break;
-	case 5:
-	  dprintf(VMSG, 0, "Using Crocce et al. (2010) for the analytic mass function\n");
-	  break;
-	case 6:
-	  dprintf(VMSG, 0, "Using Tinker et al. (2008) for the analytic mass function\n");
-	  break;
-	case 7:
-	  dprintf(VMSG, 0, "Using Courtin et al. (2010) for the analytic mass function\n");
-	  break;
-	case 8:
-	  dprintf(VMSG, 0, "Using Angulo et al. (2012) for the analytic mass function\n");
-	  break;
-	case 9:
-	  dprintf(VMSG, 0, "Using Watson et al. (2013) for the analytic mass function\n");
-	  break;
-	case 10:
-	  dprintf(VMSG, 0, "Using Crocce et al. (2010) with forced universality for the analytic mass function\n");
-	  break;
-	default:
-	  dprintf(VMSG, 0, "Unknown value for AnalyticMassFunction, Using Watson et al. (2013)\n");
-	  params.AnalyticMassFunction=9;
-	  break;
-	}
-      dprintf(VMSG, 0, "\n");
-
-      dprintf(VMSG, 0, "\n");
-      dprintf(VMSG, 0, "GENIC parameters:\n");
-      dprintf(VMSG, 0, "InputSpectrum_UnitLength_in_cm %f\n",params.InputSpectrum_UnitLength_in_cm);
-      dprintf(VMSG, 0, "FileWithInputSpectrum          %s\n",params.FileWithInputSpectrum);
-      dprintf(VMSG, 0, "WDM_PartMass_in_kev            %f\n",params.WDM_PartMass_in_kev);
-      dprintf(VMSG, 0, "\n");
-    }
-
-  /* Task 0 may have changed the value of this parameter */
+  // Task 0 may have changed the value of this parameter
   MPI_Bcast(&params.AnalyticMassFunction, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
   return 0;

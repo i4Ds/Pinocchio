@@ -99,7 +99,7 @@ int build_groups(int Npeaks, double zstop, int first_call)
       cPLC.function = &condition_F;
       brent  = gsl_root_fsolver_brent;
       solver = gsl_root_fsolver_alloc (brent);
-      DeltaF_PLC  = 0.9; // CAPIRE COME FISSARLO
+      DeltaF_PLC  = params.deltaF_PLC_in;
       NextF_PLC   = plc.Fstart * DeltaF_PLC;
       brent_err   = 1.e-2 * params.InterPartDist;
       plc.Nstored = plc.Nstored_last = 0;
