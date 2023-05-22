@@ -89,8 +89,8 @@ endif
 
 ifeq ($(SYSTYPE),"Karabo")
 CC          =  mpicc
-CDEBUG      = -ggdb3 -Wall $(OMP_FLAG)
-COPTIMIZED  = -O3 -Wno-unused-result $(OMP_FLAG)
+CDEBUG      = -ggdb3 -fsanitize=address -Wall $(OMP_FLAG)
+COPTIMIZED  = -O3 -Wno-unused-result -fsanitize=address $(OMP_FLAG)
 FFTW_LIBR   = -L$(DEPENDENCY_ROOT)/lib -lfftw3_mpi -lfftw3 $(OMP_FFTW)
 FFTW_INCL   = -I$(DEPENDENCY_ROOT)/include
 PFFT_LIBR   = -L$(DEPENDENCY_ROOT)/lib -lpfft
