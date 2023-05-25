@@ -1,3 +1,75 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{5935abec-2164-4e1b-b7b7-0e3ba2624628}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="header">
+      <UniqueIdentifier>{4a5df879-e2e8-4147-b40d-c1b16da6e815}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="def_splines.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="pinocchio.h">
+      <Filter>header</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="allocations.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="build_groups.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="collapse_times.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="cosmo.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="distribute.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="fmax.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="fmax-pfft.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="fragment.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="GenIC.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="initialization.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="LPT.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="pinocchio.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="ReadParamfile.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="ReadWhiteNoise.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="run_planner.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="variables.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="write_halos.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="write_snapshot.c">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
 </Project>

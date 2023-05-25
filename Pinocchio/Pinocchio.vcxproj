@@ -83,6 +83,31 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
+    <ClCompile Include="allocations.c" />
+    <ClCompile Include="build_groups.c" />
+    <ClCompile Include="collapse_times.c" />
+    <ClCompile Include="cosmo.c" />
+    <ClCompile Include="distribute.c" />
+    <ClCompile Include="fmax-pfft.c" />
+    <ClCompile Include="fmax.c" />
+    <ClCompile Include="fragment.c" />
+    <ClCompile Include="GenIC.c" />
+    <ClCompile Include="initialization.c" />
+    <ClCompile Include="LPT.c" />
+    <ClCompile Include="pinocchio.c" />
+    <ClCompile Include="ReadParamfile.c" />
+    <ClCompile Include="ReadWhiteNoise.c" />
+    <ClCompile Include="run_planner.c" />
+    <ClCompile Include="variables.c" />
+    <ClCompile Include="write_halos.c" />
+    <ClCompile Include="write_snapshot.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="def_splines.h" />
+    <ClInclude Include="pinocchio.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Makefile" />
   </ItemGroup>
   <ItemDefinitionGroup />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
